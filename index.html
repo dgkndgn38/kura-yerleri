@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kura Yerleri</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f7f7f7; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: #ffffff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .sehirler-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
+        .sehir { background: #f0f0f5; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center; }
+        button { padding: 5px 10px; border: none; background: #6c757d; color: white; border-radius: 5px; cursor: pointer; font-size: 14px; margin: 5px; transition: background 0.3s; }
+        button:hover { background: #495057; }
+        h1, h2 { color: #333; }
+        .total { font-size: 18px; font-weight: bold; color: #555; }
+        .critical { color: red !important; font-weight: bold; }
+        .initial { color: green !important; font-weight: bold; }
+        .hidden { display: none !important; }
+        .password-container { display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .password-container input { padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
+        .admin-badge { color: white; background: red; padding: 8px 15px; border-radius: 8px; font-weight: bold; display: none; }
+        .admin-controls { display: none; }
+        .admin-active .admin-controls { display: block !important; }
+    </style>
+</head>
+<body>
+    <h1>Kura Yerleri</h1>
+    <div class="container">
+        <div id="passwordSection" class="password-container">
+            <input type="password" id="passwordInput" placeholder="Şifre giriniz" />
+            <button onclick="kontrolEt()">Onayla</button>
+        </div>
+        <span id="adminBadge" class="admin-badge">ADMİN</span>
+        <h2 class="total">İlk Toplam: <span id="ilkToplam">343</span></h2>
+        <h2 class="total">Güncel Toplam: <span id="toplam">343</span></h2>
+        <div id="sehirler" class="sehirler-grid"></div>
+    </div>
+    
+    <script>
+        const ilkSehirler = {
+            "Adana": 1, "Amasya": 4, "Ankara": 7, "Antalya": 4, "Ardahan": 3,
+            "Artvin": 2, "Ağrı": 11, "Balıkesir": 4, "Bayburt": 7, "Bingöl": 4, "Bitlis": 3,
+            "Burdur": 3, "Denizli": 7, "Diyarbakır": 4, "Edirne": 20, "Erzurum": 1, "Gaziantep": 4,
+            "Hakkari": 28, "Hatay": 11, "İstanbul": 18, "İzmir": 3, "Kars": 5, "Kayseri": 3,
+            "Kilis": 1, "KKTÇ": 35, "Kırklareli": 9, "Malatya": 1, "Mardin": 7, "Muş": 3, "Osmaniye": 6,
+            "Sakarya": 1, "Siirt": 6, "Sivas": 6, "Tekirdağ": 17, "Trabzon": 1, "Tunceli": 8,
+            "Van": 7, "Çanakkale": 11, "Çankırı": 4, "Isparta": 22, "Iğdır": 6, "Şanlıurfa": 9,
+            "Şırnak": 26
+        };
+        let sehirler = JSON.parse(localStorage.getItem("sehirler")) || { ...ilkSehirler };
+        let ilkToplam = Object.values(ilkSehirler).reduce((a, b) => a + b, 0);
+        let duzenlemeYetkisi = false;
+
+        function kontrolEt() {
+            let sifre = document.getElementById("passwordInput").value;
+            if (sifre === "1711") {
+                duzenlemeYetkisi = true;
+                document.getElementById("passwordSection").classList.add("hidden");
+                document.getElementById("adminBadge").style.display = "inline-block";
+                document.body.classList.add("admin-active");
+            } else {
+                alert("Yanlış şifre!");
+            }
+        }
+
+        function guncelleListe() {
+            let toplam = Object.values(sehirler).reduce((a, b) => a + b, 0);
+            localStorage.setItem("sehirler", JSON.stringify(sehirler));
+            let sehirlerDiv = document.getElementById("sehirler");
+            sehirlerDiv.innerHTML = "";
+            
+            Object.keys(sehirler).sort((a, b) => a.localeCompare(b, 'tr')).forEach(sehir => {
+                let div = document.createElement("div");
+                div.className = "sehir";
+                let currentValue = sehirler[sehir];
+                let initialValue = ilkSehirler[sehir];
+                let probability = ((currentValue / toplam) * 100).toFixed(2);
+                let criticalClass = currentValue <= initialValue / 2 ? "critical" : "initial";
+                
+                div.innerHTML = `
+                    <span style="font-size: 18px; font-weight: bold; color: #333;">${sehir}</span>
+                    <span class="initial">(${initialValue})</span>
+                    <span style="font-size: 20px; font-weight: bold;" class="${criticalClass}" id="sayi_${sehir}">${currentValue}</span>
+                    <span style="font-size: 14px; color: #666;">(${probability}%)</span>
+                    <div class="admin-controls">
+                        <button onclick="degistir('${sehir}', -1)">-</button>
+                        <button onclick="degistir('${sehir}', 1)">+</button>
+                    </div>
+                `;
+                sehirlerDiv.appendChild(div);
+            });
+            document.getElementById("toplam").innerText = toplam;
+            document.getElementById("ilkToplam").innerText = ilkToplam;
+        }
+        
+        function degistir(sehir, fark) {
+            if (!duzenlemeYetkisi) return;
+            let yeniDeger = Math.max(0, Math.min(ilkSehirler[sehir], sehirler[sehir] + fark));
+            sehirler[sehir] = yeniDeger;
+            guncelleListe();
+        }
+        
+        guncelleListe();
+    </script>
+</body>
+</html>
