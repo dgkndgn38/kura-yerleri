@@ -45,8 +45,7 @@
             "Kilis": 1, "KKTC": 38, "Kırklareli": 9, "Malatya": 1, "Mardin": 7, "Muş": 3, "Osmaniye": 6,
             "Sakarya": 1, "Siirt": 6, "Sivas": 6, "Tekirdağ": 17, "Trabzon": 1, "Tunceli": 8,
             "Van": 7, "Çanakkale": 11, "Çankırı": 4, "Isparta": 22, "Iğdır": 6, "Şanlıurfa": 9,
-            "Şırnak": 26,
-"Manisa": 19
+            "Şırnak": 26, "Manisa": 19
         };
         let sehirler = JSON.parse(localStorage.getItem("sehirler")) || { ...ilkSehirler };
         let ilkToplam = Object.values(ilkSehirler).reduce((a, b) => a + b, 0);
