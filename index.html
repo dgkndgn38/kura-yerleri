@@ -38,15 +38,11 @@
     
     <script>
         const ilkSehirler = {
-            "Adana": 1, "Amasya": 4, "Ankara": 7, "Antalya": 4, "Ardahan": 3,
+            "Adana": 1, "Amasya": 4, "Ankara": 7+1, "Antalya": 4+1, "Ardahan": 3,
             "Artvin": 2, "Ağrı": 11, "Balıkesir": 4, "Bayburt": 7, "Bingöl": 4, "Bitlis": 3,
             "Burdur": 3, "Denizli": 7, "Diyarbakır": 4, "Edirne": 20, "Erzurum": 1, "Gaziantep": 4,
-            "Hakkari": 28, "Hatay": 11, "İstanbul": 18, "İzmir": 3, "Kars": 5, "Kayseri": 3,
-            "Kilis": 1, "KKTÇ": 35, "Kırklareli": 9, "Malatya": 1, "Mardin": 7, "Muş": 3, "Osmaniye": 6,
-            "Sakarya": 1, "Siirt": 6, "Sivas": 6, "Tekirdağ": 17, "Trabzon": 1, "Tunceli": 8,
-            "Van": 7, "Çanakkale": 11, "Çankırı": 4, "Isparta": 22, "Iğdır": 6, "Şanlıurfa": 9,
-            "Şırnak": 26
-        };
+            "Hakkari": 28, "Hatay": 11, "İstanbul": 18+2, "İzmir": 3, "Kars": 5, "Kayseri": 3,
+            "Kilis": 1, "KKTC": 35+3, "Kırklareli": 9, "Malatya": 1, "Mardin": 7, "Muş": 3, "Manisa": 19};
         let sehirler = JSON.parse(localStorage.getItem("sehirler")) || { ...ilkSehirler };
         let ilkToplam = Object.values(ilkSehirler).reduce((a, b) => a + b, 0);
         let duzenlemeYetkisi = false;
