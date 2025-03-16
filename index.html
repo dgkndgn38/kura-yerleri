@@ -27,22 +27,26 @@
     <h1>Kura Yerleri</h1>
     <div class="container">
         <div id="passwordSection" class="password-container">
-            <input type="password" id="passwordInput" placeholder="Şifre giriniz" />
+            <input type="password" id="passwordInput" placeholder="Åifre giriniz" />
             <button onclick="kontrolEt()">Onayla</button>
         </div>
-        <span id="adminBadge" class="admin-badge">ADMİN</span>
-        <h2 class="total">İlk Toplam: <span id="ilkToplam">343</span></h2>
-        <h2 class="total">Güncel Toplam: <span id="toplam">343</span></h2>
+        <span id="adminBadge" class="admin-badge">ADMÄ°N</span>
+        <h2 class="total">Ä°lk Toplam: <span id="ilkToplam">343</span></h2>
+        <h2 class="total">GÃ¼ncel Toplam: <span id="toplam">343</span></h2>
         <div id="sehirler" class="sehirler-grid"></div>
     </div>
     
     <script>
         const ilkSehirler = {
-            "Adana": 1, "Amasya": 4, "Ankara": 7+1, "Antalya": 4+1, "Ardahan": 3,
-            "Artvin": 2, "Ağrı": 11, "Balıkesir": 4, "Bayburt": 7, "Bingöl": 4, "Bitlis": 3,
-            "Burdur": 3, "Denizli": 7, "Diyarbakır": 4, "Edirne": 20, "Erzurum": 1, "Gaziantep": 4,
-            "Hakkari": 28, "Hatay": 11, "İstanbul": 18+2, "İzmir": 3, "Kars": 5, "Kayseri": 3,
-            "Kilis": 1, "KKTC": 35+3, "Kırklareli": 9, "Malatya": 1, "Mardin": 7, "Muş": 3, "Manisa": 19};
+            "Adana": 1, "Amasya": 4, "Ankara": 7, "Antalya": 4, "Ardahan": 3,
+            "Artvin": 2, "AÄrÄ±": 11, "BalÄ±kesir": 4, "Bayburt": 7, "BingÃ¶l": 4, "Bitlis": 3,
+            "Burdur": 3, "Denizli": 7, "DiyarbakÄ±r": 4, "Edirne": 20, "Erzurum": 1, "Gaziantep": 4,
+            "Hakkari": 28, "Hatay": 11, "Ä°stanbul": 18, "Ä°zmir": 3, "Kars": 5, "Kayseri": 3,
+            "Kilis": 1, "KKTÃ": 35, "KÄ±rklareli": 9, "Malatya": 1, "Mardin": 7, "MuÅ": 3, "Osmaniye": 6,
+            "Sakarya": 1, "Siirt": 6, "Sivas": 6, "TekirdaÄ": 17, "Trabzon": 1, "Tunceli": 8,
+            "Van": 7, "Ãanakkale": 11, "ÃankÄ±rÄ±": 4, "Isparta": 22, "IÄdÄ±r": 6, "ÅanlÄ±urfa": 9,
+            "ÅÄ±rnak": 26
+        };
         let sehirler = JSON.parse(localStorage.getItem("sehirler")) || { ...ilkSehirler };
         let ilkToplam = Object.values(ilkSehirler).reduce((a, b) => a + b, 0);
         let duzenlemeYetkisi = false;
@@ -55,7 +59,7 @@
                 document.getElementById("adminBadge").style.display = "inline-block";
                 document.body.classList.add("admin-active");
             } else {
-                alert("Yanlış şifre!");
+                alert("YanlÄ±Å Åifre!");
             }
         }
 
